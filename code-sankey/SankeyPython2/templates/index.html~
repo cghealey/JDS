@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" src="static/styles/main.css">
+    <link rel="stylesheet" src="static/styles/jquery.multi-select.min.css">
+
+    <script type="text/javascript" src="scripts/jquery-3.6.1.min.js"></script>
+    <script type="text/javascript" src="static/scripts/highcharts-10.2.1.min.js"></script>
+    <script type="text/javascript" src="static/scripts/highcharts-sankey-10.2.1.min.js"></script>
+    <script type="text/javascript" src="static/scripts/jquery.multi-select.min.js"></script>
+</head>
+
+<body>
+    <div>
+        <label for="raceSelectionBox">Please select race:</label>
+        <select multiple id="raceSelectionBox" name="driverSelectionBox">
+            <option value="1">Atlanta</option>
+            <option value="2">Richmond</option>
+            <option value="3">Talladega</option>
+            <option value="4">Charlotte Coca-cola</option>
+            <option value="5">Indianapolis</option>
+            <option value="6">Daytona</option>
+            <option value="7">Bristol</option>
+            <option value="8">Charlotte ROVAL</option>
+        </select>
+
+        <label for="driverSelectionBox">Please select driver:</label>
+        <select id="driverSelectionBox" multiple="multiple" name="driverSelectionBox">
+        </select>
+
+    </div>
+    <div id="raceChartContainer" style="width: 100%; height: 60vh; margin-top: 30px;"></div>
+    <div id="textSummaryContainer" style="background-color: lightgray; height: 30vh; overflow-y: scroll;"></div>
+
+    <script type="text/javascript" src="static/scripts/main.js"></script>
+</body>
+
+</html>
