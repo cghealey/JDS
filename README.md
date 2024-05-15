@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 NASCAR Python code for JDS publication. Code is split into two parts: preprocessing of audio-converted driver-pit crew communication, and conversion of preprocessed data into Sankey diagrams of race progress for a given race and driver.
 
 Preprocessing:
@@ -19,4 +18,3 @@ Sankey visualization:
 =======
 # JDS
 Journal of Data Science code repository
->>>>>>> 49993d51d6ade067642e8d90a408725c533f0100
