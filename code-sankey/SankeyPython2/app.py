@@ -5,16 +5,26 @@ import json
 import math
 import os
 
+
+#  Use Flask to render results in a localhost webpage on default Flask port
+#  5000 (i.e., https://127.0.0.1:5000
+
 app = Flask(__name__)
 
 
 @app.route("/")
 def index():
+
+#  Callback to render index.html on given localhost port
+
     return flask.render_template("index.html")
 
 
 @app.route("/getdrivers")
 def getdrivers():
+
+#  Callback to get driver names from input JSON file
+
     print( os.getcwd() )
     input_file = open("static/data/input.json")
     input_data = json.load(input_file)
@@ -23,6 +33,9 @@ def getdrivers():
 
 @app.route("/getracerecords", methods=["POST"])
 def getracerecords():
+
+#  Callback to get trace records from input JSON file
+
     input_file = open("static/data/input.json")
     input_data = json.load(input_file)
 
@@ -44,6 +57,9 @@ def getracerecords():
 
     elements_per_group = math.floor(len(corner_speeds) / 10)
     speed_to_color_map = {}
+
+    #  Colour corner speeds based on their sorted position, there are 10
+    #  colours uniformly distributed across each block of corner speeds
 
     for i in range(0, elements_per_group):
         speed_to_color_map.update({corner_speeds[i]: "#e32525"})
@@ -82,6 +98,8 @@ def getracerecords():
 
     understeer_elements_per_group = math.floor(len(understeer_values) / 10)
     understeer_to_color_map = {}
+
+    #  Similar to corner speeds, colour 10 blocks of understeer values
 
     for i in range(0, understeer_elements_per_group):
         understeer_to_color_map.update({understeer_values[i]: "#b3b3b3"})
@@ -129,8 +147,12 @@ def getracerecords():
     for i in range(9 * understeer_elements_per_group, len(understeer_values)):
         understeer_to_color_map.update({understeer_values[i]: "#262626"})
 
+    #  Build chart data dictionary for output dashboard
+
     chart_data = {}
     chart_data.update({"title": "Race analysis data"})
+
+    #  Build race property dropdown dictionary entries for output dashboard
 
     series_entry = {}
     series_entry.update({"type": "sankey"})
@@ -157,6 +179,8 @@ def getracerecords():
     series_entry_data_data = []
     series_entry_nodes_data = []
 
+    #  Build driver dropdown dictionary entries for output dashboard
+
     for driver in drivers:
         driver_node = {}
         driver_node.update({"id": driver["name"]})
@@ -165,8 +189,12 @@ def getracerecords():
         driver_node.update({"color": "red"})
         series_entry_nodes_data.insert(0, driver_node)
 
+        #  Ignore drivers w/no important events
+
         if len( driver[ "events" ] ) == 0:
             continue
+
+        #  Add important events to driver's event node
 
         for event in driver["events"]:
             event_node = {}
@@ -199,6 +227,9 @@ def getracerecords():
                 first_event["onThrotleTime"],
             ),
         )
+
+        #  Update series data w/driver important event dictionary
+        
         series_entry_data_data.insert(
             len(series_entry_data_data), driver_to_first_event_link
         )
@@ -224,6 +255,8 @@ def getracerecords():
                 len(series_entry_data_data), event_to_event_link
             )
 
+    #  Global properties and tooltip for series dictionary
+
     series_entry.update({"colorByPoint": False})
     series_entry.update({"nodes": series_entry_nodes_data})
     series_entry.update({"data": series_entry_data_data})
@@ -235,6 +268,8 @@ def getracerecords():
         }
     )
 
+    #  Save series data, add to chart to visualize
+
     series_data = [series_entry]
     chart_data.update({"series": series_data})
 
@@ -244,6 +279,9 @@ def getracerecords():
 
 
 def get_understeer_values(drivers_data):
+
+    #  Insert understeer values for one or more drivers
+    
     event_understeer_values = []
 
     for driver in drivers_data:
@@ -254,6 +292,9 @@ def get_understeer_values(drivers_data):
 
 
 def get_corner_speeds(drivers_data):
+
+    #  Insert corner speed values for one or more drivers
+    
     event_speed_values = []
 
     for driver in drivers_data:
@@ -264,6 +305,9 @@ def get_corner_speeds(drivers_data):
 
 
 def get_lap_numbers(drivers_data):
+
+    #  Build and return a unique set of lap numbers for a given set of drivers
+    
     lap_numbers = []
 
     for driver in drivers_data:
@@ -280,6 +324,9 @@ def get_lap_numbers(drivers_data):
 
 
 def map_speed_and_throttle_to_color(speed_to_color_map, speed, throttle_time):
+
+    #  Convert maximum speed and on-throttle time to a colour and transparency
+    
     current_opacity = 255 * (throttle_time / 100)
 
     color = speed_to_color_map.get(speed)
