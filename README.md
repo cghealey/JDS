@@ -12,7 +12,7 @@ Sankey visualization:
     enter directory code-sankey\SankeyPython2
     run python on app.py, e.g. % python app.py
     flask will provide a localhost port to view the visualization, which should be 127.0.0.1:5000
-    enter 127.0.01:5000 into a web browser to see the available races and drivers
+    enter 127.0.0.1:5000 into a web browser to see the available races and drivers
     select a race
     select one or more drivers; if the driver(s) have communication text associated with them, a Sankey diagram of important events extracted from the text will be visualized. Sankey diagrams for multiple drivers will overlap one another
 =======
